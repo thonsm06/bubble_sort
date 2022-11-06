@@ -1,13 +1,41 @@
 require 'benchmark'
 
-def bubble_sort(array)
+def bubble_sort_optimized(array)
     sorted_array = array
-    low_value = sorted_array.min
-    high_value = sorted_array.max
     sorted = 1
-    start_range = 0
-    end_range = sorted_array.length - 1
-    #p low_value, high_value
+    completed = 1
+    count = 0
+time = Benchmark.measure do
+    until sorted == 0 do
+        sorted = 0
+        sorted_array.each_with_index do |v, i|
+            break if i+completed >= sorted_array.length
+                if v > sorted_array[i+1]
+                    sorted_array[i], sorted_array[i+1] = sorted_array[i+1], sorted_array[i]
+                    array = sorted_array
+                    sorted += 1
+                    count += 1
+                end
+                if i+completed == sorted_array.length - 1
+                   completed += 1
+                end
+            end
+        end
+        
+    end
+    return "optimized", sorted_array, count, time.real, sorted_array.length
+end
+p bubble_sort_optimized([4,3,78,2,0,2,1,2,-3.0,0.340,0.4,5,12,34,1.23,42,341,24,21,342,-3.4,12,34.12,2,65])
+p bubble_sort_optimized([4,3,78,2,0,2,1,2,-3.0,0.340,0.4,5,12,34,1.23,42,341,24,21,342,-3.4,12,34.12,2,65,
+    34,321,-123,-33.02,3434,-1233,-34.321,-34.320,1223,33,67,55,-65,-45,-445,4,5,8,3,99,87,0,9,10,0,1223,33,67,55,-65])
+p bubble_sort_optimized([4,3,78,2,0,2,1,2,-3.0,0.340,0.4,5,12,34,1.23,42,341,24,21,342,-3.4,12,34.12,2,65,
+    65,-64,64,345,35,4,5,7,31,-3,3,2,0.7,9,-67,32,12,4344,21,22,54.1,1,3,2,1,76,0.6,-5.1,15,4.03,
+    34,321,-123,-33.02,3434,-1233,-34.321,-34.320,1223,33,67,55,-65,-45,-445,4,5,8,3,99,87,0,9,10,0])
+
+def bubble_sort_unoptimized(array)
+    sorted_array = array
+    sorted = 1
+    count = 0
 time = Benchmark.measure do
     until sorted == 0 do
         sorted = 0
@@ -15,25 +43,21 @@ time = Benchmark.measure do
             break if i+1 >= sorted_array.length
                 if v > sorted_array[i+1]
                     sorted_array[i], sorted_array[i+1] = sorted_array[i+1], sorted_array[i]
+                    array = sorted_array
                     sorted += 1
+                    count += 1
                 end
-                if low_value == sorted_array[i] #sorted_array[start_range]
-                    start_range += 1
-                end
-                if high_value == sorted_array[-1]
-                    end_range -= 1
-                end
-                #low_value = sorted_array[start_range..end_range].min
-                #high_value = sorted_array[start_range..end_range].max
             end
         end
         
     end
-    return sorted_array, time.real
+    return "unoptimized", sorted_array, count, time.real, sorted_array.length
 end
-    
+p bubble_sort_unoptimized([4,3,78,2,0,2,1,2,-3.0,0.340,0.4,5,12,34,1.23,42,341,24,21,342,-3.4,12,34.12,2,65])
+p bubble_sort_unoptimized([4,3,78,2,0,2,1,2,-3.0,0.340,0.4,5,12,34,1.23,42,341,24,21,342,-3.4,12,34.12,2,65,
+    34,321,-123,-33.02,3434,-1233,-34.321,-34.320,1223,33,67,55,-65,-45,-445,4,5,8,3,99,87,0,9,10,0,1223,33,67,55,-65])
+p bubble_sort_unoptimized([4,3,78,2,0,2,1,2,-3.0,0.340,0.4,5,12,34,1.23,42,341,24,21,342,-3.4,12,34.12,2,65,
+    65,-64,64,345,35,4,5,7,31,-3,3,2,0.7,9,-67,32,12,4344,21,22,54.1,1,3,2,1,76,0.6,-5.1,15,4.03,
+    34,321,-123,-33.02,3434,-1233,-34.321,-34.320,1223,33,67,55,-65,-45,-445,4,5,8,3,99,87,0,9,10,0])
 
-   
-
-p bubble_sort([4,3,78,122,-2,0,2,5,6,6,474444,7,9,8,4,2,3,-5484,1,6,8,-5,9,10,11,54,61,32,25,8,2,45,-30,55,78,-54,12,35,54,66,88,9])
 

@@ -1,4 +1,4 @@
 # bubble_sort
-current algorithm works perfectly including, negative and larger numbers.
-
-Trying to make it more efficient.
+Two algorithms, they are the same speed ~55 items
+Optimized is faster > 55 noticeable > 60
+Unoptimized is faster < 55
